@@ -9,7 +9,7 @@ class IO {
     io.on('connection', this.connection);
   }
   private connection = (socket: Socket) => {
-   console.log(`Socket connected: ${socket.id}, email: ${socket.data.user.email}`);
+   console.log(`Socket connected: ${socket.id}`);
     new SocketController(socket);
   };
 }

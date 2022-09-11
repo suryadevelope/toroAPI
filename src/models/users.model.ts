@@ -18,14 +18,15 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  uid: {
-    type: String,
-    required: true
-  },
   devices: {
     type: Array,
     required: true
+  },
+  uid: {
+    type: String,
+    required: false
   }
+  
 });
 
 const userModel = model<User & Document>('Users', userSchema);

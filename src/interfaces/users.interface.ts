@@ -3,7 +3,7 @@ export interface User {
   name: string;
   affliate: string;
   mobile: string;
-  uid: string;
   mail: string;
   devices: string[];
+  uid:string
 }

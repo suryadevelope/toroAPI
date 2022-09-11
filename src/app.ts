@@ -104,7 +104,7 @@ class App {
     new IoController(
       new Server(this.server, {
         cors: {
-          origin: [],
+          origin: ["http://localhost:5500","http://127.0.0.1:5500"],
           credentials: true,
         },
       }),

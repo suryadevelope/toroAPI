@@ -1,0 +1,1 @@
+ssh -i "toro_key_pair.pem" ubuntu@ec2-13-233-8-158.ap-south-1.compute.amazonaws.com

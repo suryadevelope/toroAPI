@@ -1,43 +1,42 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
-import { RequestWithUser } from '@interfaces/auth.interface';
-import { User } from '@interfaces/users.interface';
-import AuthService from '@services/auth.service';
 import userModel from '@models/users.model'
-import {SHA1} from "crypto-js"
+import { SHA1 } from "crypto-js"
+import checksecurity from '../securitychecks/check.security';
 
 
 
 class AuthController {
-  public authService = new AuthService();
+  public security = new checksecurity();
 
   public signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      var token =  SHA1("\nmail:"+req.body.mail+"\n").toString();
+      var token = SHA1("\nmail:" + req.body.mail + "\n").toString();
       req.body.uid = token
 
-      userModel.findOne({ uid: req.body.uid }).then((ress) => {
-        if (ress) {          
-            res.status(401).json({"Reason":"User with this mail already exists"})
-          
-        } else {
-          userModel.create(req.body).then((response) => {
-            res.status(200).json({"token":response.uid})
-          }).catch((e) => {
-            res.status(401).json(e)
-          })
-        }
-  
-      }).catch((err) => {
-        res.status(401).json(err)
+      var checks = this.security.check(req.body.temptkn);
 
-      })
-
-
+      if (checks.code == 200) {
+        userModel.findOne({ uid: req.body.uid }).then((ress) => {
+          if (ress) {
+            res.status(401).json({ "Reason": "User with this mail already exists" })
+          } else {
+            delete req.body.temptkn;
+            userModel.create(req.body).then((response) => {
+              res.status(200).json({ "token": response.uid })
+            }).catch((e) => {
+              res.status(401).json(e)
+            })
+          }
+        }).catch((err) => {
+          res.status(401).json(err)
+        })
+      } else {
+        res.status(401).json({ "Access": "denied", "Reason": checks.error })
+      }
 
 
     } catch (error) {
-      next(error);
+      res.status(401).json({ "error": error })
     }
   };
 
@@ -48,27 +47,32 @@ class AuthController {
 
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-    
-      userModel.findOne({ mail: req.body.mail}).then((ress) => {
-        
-        if (ress) {
-             res.status(200).json({"token":ress.uid})
+      console.log(req.headers);
+      var checks = this.security.check(req.body.temptkn);
+      console.log(checks);
+      if (checks.code == 200) {
+        userModel.findOne({ mail: req.body.mail }).then((ress) => {
+
+          if (ress) {
+            res.status(200).json({ "token": ress.uid })
           } else {
-          res.status(404).json({"err":"user doesnot exists"})
-            
+            res.status(404).json({ "err": "user doesnot exists" })
+
           }
-    
+
         }).catch((err) => {
           res.status(401).json(err)
 
         })
-    
-    
-      
+      } else {
+        res.status(401).json({ "code": 401, "Reason": checks.error })
+
+      }
+
 
 
     } catch (error) {
-      res.status(404).json({"Reason":error})
+      res.status(404).json({ "Reason": error })
     }
   };
 

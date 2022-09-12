@@ -6,12 +6,14 @@ const signupjoy = Joi.object({
     name: Joi.string().empty().trim().required(),
     mail: Joi.string().empty().trim().required(),
     mobile: Joi.string().empty().trim().required(),
-    affliate: Joi.boolean().empty(),
-    password: Joi.string()
+    affliate: Joi.string().empty().required(),
+    password: Joi.string().empty().required(),
+    temptkn: Joi.string().empty().required()
 });
 
 const loginjoy = Joi.object({
     mail: Joi.string().empty().trim().required(),
+    temptkn: Joi.string().empty().required()
 });
 
 

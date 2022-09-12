@@ -15,19 +15,19 @@ const DevicesSchema: Schema = new Schema({
     required: true
   },
   devicetype: {
-    type: String,
+    type: Boolean,
     required: true
   },
   devicestate: {
-    type: Number,
+    type: Boolean,
     required: true
   },
   pumpState: {
-    type: Number,
+    type: Boolean,
     required: true
   },
   manualMode: {
-    type: Number,
+    type: Boolean,
     required: true
   },
   setPowerState: {

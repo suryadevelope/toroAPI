@@ -20,7 +20,7 @@ const userSchema: Schema = new Schema({
   },
   devices: {
     type: Array,
-    required: true
+    default: []
   },
   uid: {
     type: String,

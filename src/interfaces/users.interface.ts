@@ -4,6 +4,6 @@ export interface User {
   affliate: string;
   mobile: string;
   mail: string;
-  devices: string[];
+  devices: object[];
   uid:string
 }

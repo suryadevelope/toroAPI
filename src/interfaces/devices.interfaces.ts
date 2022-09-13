@@ -1,6 +1,7 @@
 export interface Device {
   macid: string
-  approved: string[]
+  mail: string
+  approved:object[]
   devicename: string
   devicetype: boolean
   devicestate: boolean

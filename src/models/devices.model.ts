@@ -6,8 +6,12 @@ const DevicesSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  approved: {
+  mail:{
     type: String,
+    required: true
+  },
+  approved: {
+    type: Array,
     default: []
   },
   devicename: {
@@ -15,7 +19,7 @@ const DevicesSchema: Schema = new Schema({
     required: true
   },
   devicetype: {
-    type: Boolean,
+    type: String,
     required: true
   },
   devicestate: {

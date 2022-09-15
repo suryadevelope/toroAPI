@@ -13,6 +13,7 @@ const signupjoy = Joi.object({
 
 const loginjoy = Joi.object({
     mail: Joi.string().empty().trim().required(),
+    password: Joi.string().empty().required(),
     temptkn: Joi.string().empty().required()
 });
 

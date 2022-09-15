@@ -6,6 +6,10 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true
   },
+  password:{
+    type: String,
+    required: true
+  },
   affliate: {
     type: String,
     required: true

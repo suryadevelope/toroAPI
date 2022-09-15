@@ -1,0 +1,113 @@
+{
+    "80:00:00:00:00:00:00": {
+        "analytics":{
+            "14-09-2022": {
+                "10:48:01": {
+                    "Dstate": "on",
+                    "Pstate": "off",
+                    "up_time": "10/09/2022 12:00:00",
+                    "grill": {
+                        "temp": 100
+                    },
+                    "outdoor": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "filter_bool": "",
+                    "fan": {
+                        "state": "on",
+                        "watts": "200"
+                    },
+                    "System_watts": "200",
+                    "set_point_temp": "12",
+                    "add_humid_val": 0
+                },
+                "10:48:02": {
+                    "Dstate": "on",
+                    "Pstate": "off",
+                    "up_time": "10/09/2022 12:00:00",
+                    "grill": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "outdoor": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "filter_bool": "",
+                    "fan": {
+                        "state": "on",
+                        "speed": {
+                            "rpm": "1500",
+                            "Hz": "1400"
+                        },
+                        "volts": "400",
+                        "amps": "0.5",
+                        "watts": "200"
+                    },
+                    "System_watts": "200",
+                    "set_point_temp": "12",
+                    "add_humid_val": 0
+                },
+                "10:48:03": {
+                    "Dstate": "on",
+                    "Pstate": "off",
+                    "up_time": "10/09/2022 12:00:00",
+                    "grill": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "outdoor": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "filter_bool": "",
+                    "fan": {
+                        "state": "on",
+                        "speed": {
+                            "rpm": "1500",
+                            "Hz": "1400"
+                        },
+                        "volts": "400",
+                        "amps": "0.5",
+                        "watts": "200"
+                    },
+                    "System_watts": "200",
+                    "set_point_temp": "12",
+                    "add_humid_val": 0
+                },
+                "10:48:04": {
+                    "Dstate": "on",
+                    "Pstate": "off",
+                    "up_time": "10/09/2022 12:00:00",
+                    "grill": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "outdoor": {
+                        "temp": 100,
+                        "humid": 20
+                    },
+                    "filter_bool": "",
+                    "fan": {
+                        "state": "on",
+                        "speed": {
+                            "rpm": "1500",
+                            "Hz": "1400"
+                        },
+                        "volts": "400",
+                        "amps": "0.5",
+                        "watts": "200"
+                    },
+                    "System_watts": "200",
+                    "set_point_temp": "12",
+                    "add_humid_val": 0
+                }
+            }
+        },
+        "outputs":{
+            
+        }
+       
+    }
+}

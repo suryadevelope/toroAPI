@@ -21,6 +21,7 @@ class AuthController {
             res.status(401).json({ "Reason": "User with this mail already exists" })
           } else {
             delete req.body.temptkn;
+            req.body.password = SHA1(req.body.password).toString();
             userModel.create(req.body).then((response) => {
               res.status(200).json({ "token": response.uid })
             }).catch((e) => {
@@ -52,13 +53,18 @@ class AuthController {
       console.log(checks);
       if (checks.code == 200) {
         userModel.findOne({ mail: req.body.mail }).then((ress) => {
-
-          if (ress) {
-            res.status(200).json({ "token": ress.uid })
-          } else {
-            res.status(404).json({ "err": "user doesnot exists" })
+          if(ress.password == SHA1(req.body.password).toString()){
+            if (ress) {
+              res.status(200).json({ "token": ress.uid })
+            } else {
+              res.status(404).json({ "err": "user doesnot exists" })
+  
+            }
+          }else{
+            res.status(400).json({ "err": "Invalid password" })
 
           }
+          
 
         }).catch((err) => {
           res.status(401).json(err)

@@ -6,4 +6,5 @@ export interface User {
   mail: string;
   devices: object[];
   uid:string
+  password:string
 }

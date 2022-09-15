@@ -10,7 +10,7 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true
   },
-  affliate: {
+  affiliate: {
     type: String,
     required: true
   },

@@ -1,7 +1,7 @@
 export interface User {
   _id: string;
   name: string;
-  affliate: string;
+  affiliate: string;
   mobile: string;
   mail: string;
   devices: object[];

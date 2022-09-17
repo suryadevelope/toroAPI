@@ -36,6 +36,8 @@ services:
       - '27017:27017'
     networks:
       - backend
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
 
 networks:
   backend:

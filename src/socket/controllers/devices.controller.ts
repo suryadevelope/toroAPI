@@ -307,8 +307,24 @@ class DeviceController {
     }
 
     private socketlisten = async (data: { token: String, data: { mac: String, } }) => {
-        deviceModel.watch([{$match: { [data.data.mac.toString()]: {$exists: true } }}]).
-    on('change', data => console.log(new Date(), data));
+        deviceModel.watch([
+            {
+                '$match': {
+                    'operationType': 'insert',
+                    'fullDocument.address.country': 'Australia',
+                    'fullDocument.address.market': 'Sydney'
+                }
+            }
+        ]).on('change',(data)=>{
+            console.log(data);
+            
+        })
+
+        const changeStream = deviceModel.watch([], { fullDocument: 'updateLookup' });
+      
+changeStream.on('change', obj => {
+  console.log(obj);
+});
 
 
         // deviceModel.watch([{ $match: { } }]).on('change', data => {

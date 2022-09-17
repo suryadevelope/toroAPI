@@ -13,6 +13,31 @@ class SocketController {
     socket.on('disconnect', this.disconnect);
     socket.on("delete_user", this.delete_user);
     socket.on("update_user", this.update_user);
+    socket.on("get_user", this.get_user);
+  }
+
+  private get_user = async (data: { token: String}, callback: any) => {
+
+    var checksdata = this.checks.check(data.token);
+    if (checksdata.code == 200) {
+      console.log(this.socket.data.user.uid);
+      
+      await userModel.findOne({ uid: this.socket.data.user.uid }).then(async (res) => {
+        if (res) {
+          callback({"code":200,"data":res});
+        } else {
+          callback({ "code": 404, "Reason": "User odesnot exists" })
+        }
+
+      }).catch((err) => {
+        callback(err);
+      })
+    } else {
+      callback({ "code": 401, "Reason": "Access denied" })
+
+    }
+
+
   }
 
   private update_user = async (data: { token: String, data: User }, callback: any) => {

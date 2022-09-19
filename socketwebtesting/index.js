@@ -11,13 +11,14 @@ socket.on("connect", () => {
 });
 
 
-// setTimeout(()=>{
-// //  socket.emit("update_user", {token:tkn,data:{ name: "surya"}}, (payload) => {
-//   socket.emit("create_user", { name: "suryalokula",uid:"xcvhbjterwaxzsdxcfvbuysgbjedgchs",affliate:"123456789",devices:[],mobile:"9701905119",mail:"suryaprakashlokula@gmail.com",}, (payload) => {
-//     // socket.emit("delete_user", (payload) => {
-//       console.log(payload);
-//     });
-// },2000)
+setTimeout(()=>{
+//  socket.emit("update_user", {token:tkn,data:{ name: "surya"}}, (payload) => {
+  // socket.emit("create_user", { name: "suryalokula",uid:"xcvhbjterwaxzsdxcfvbuysgbjedgchs",affliate:"123456789",devices:[],mobile:"9701905119",mail:"suryaprakashlokula@gmail.com",}, (payload) => {
+    socket.on("onchange", (payload) => {
+    // socket.emit("delete_user", (payload) => {
+      console.log("onchange",payload);
+    });
+},2000)
 socket.on("disconnect", (reason) => {
   console.log("disconnected", reason);
 });
@@ -91,11 +92,12 @@ var data = {
   ,"Update_device":{
     "macid": "80:00:00:00:00:01",
     "approved": [],
-    "devicename": "test1",
+    "devicename": "test52",
     "devicetype": "NA-5",
   },
   "listen":{
     "mac": "80:00:00:00:00:01",
+    keys:["macid,uid"]
   }
 }
 

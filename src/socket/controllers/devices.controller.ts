@@ -20,7 +20,9 @@ class DeviceController {
         socket.on("Get_all_device", this.Get_all_devices);
         socket.on("Get_device", this.Get_device);
         socket.on("Update_device", this.update_device);
-        socket.on("listen", this.socketlisten);
+        socket.on("listen", this.listen_socket);
+        
+        
     }
 
 
@@ -50,6 +52,7 @@ class DeviceController {
                         ress.devices.push({ [data.data.macid]: "owner" })
 
                         await userModel.updateOne({ uid: this.socket.data.user.uid }, ress).then(() => {
+                            this.socket.to(String(data.data.macid)).emit("onchange",{"type":"register","data":data.data});
                             callback({ "code": 200, "message": "Device registered successfully" });
                         }).catch((err) => {
                             callback({ "code": 500, "error": err })
@@ -106,6 +109,8 @@ class DeviceController {
                         deviceModel.updateOne({ macid: data.data.mac }, resdevice).then(async () => {
                             ress.devices.push({ [resdevice.macid]: "user" })
                             await userModel.findOneAndUpdate({ uid: ress.uid }, ress).then((r) => {
+                            this.socket.to(String(data.data.mac)).emit("onchange",{"type":"auth","data":data.data});
+
                                 callback({ "code": 200, "message": `${data.data.mail} updated to ${data.data.mac}` })
 
                             }).catch((err) => {
@@ -150,6 +155,7 @@ class DeviceController {
                         ress.devices.splice(ress.devices.findIndex(ele => Object.keys(ele)[0] == data.data.mac), 1);
                         deviceModel.updateOne({ macid: data.data.mac }, resdevice).then(() => {
                             userModel.updateOne({ mail: data.data.mail }, ress).then(() => {
+                            this.socket.to(String(data.data.mac)).emit("onchange",{"type":"unauth","data":data.data});
                                 callback({ "code": 200, "message": `${data.data.mail} removed from ${data.data.mac}` })
                             }).catch((err) => {
                                 callback({ "code": 500, "error": err })
@@ -184,6 +190,7 @@ class DeviceController {
                         await deviceModel.deleteOne({ macid: data.data.mac }).then(async (ress) => {
                             resss.devices.splice(Object.keys(resss.devices).indexOf(data.data.mac.toString()), 1)
                             await userModel.updateOne({ uid: this.socket.data.user.uid }, resss).then((res) => {
+                            this.socket.to(String(data.data.mac)).emit("onchange",{"type":"unregister","data":data.data});
                                 callback({ "code": 200, "error": `You have unregistered this device` })
                             }).catch((err) => {
                                 callback({ "code": 500, "error": err })
@@ -270,7 +277,10 @@ class DeviceController {
             if (res) {
                 await deviceModel.findOne({ macid: data.data.macid }).then(async (ress) => {
                     if (ress) {
-                        await deviceModel.updateOne({ macid: data.data.macid }, data.data).then(() => {
+                        await deviceModel.updateOne({ macid: data.data.macid }, data.data).then((upres) => {
+            this.socket.join(String(data.data.macid));
+
+                            this.socket.to(String(data.data.macid)).emit("onchange",{"type":"change","data":data.data});
                             callback({ "code": 200, "message": "updated device info" })
                         }).catch((err) => {
                             callback({ "code": 500, "error": err })
@@ -306,44 +316,12 @@ class DeviceController {
 
     }
 
-    private socketlisten = async (data: { token: String, data: { mac: String, } }) => {
-        deviceModel.watch([
-            {
-                '$match': {
-                    'operationType': 'insert',
-                    'fullDocument.address.country': 'Australia',
-                    'fullDocument.address.market': 'Sydney'
-                }
-            }
-        ]).on('change',(data)=>{
-            console.log(data);
-            
-        })
+    private listen_socket = async (data:{token:String,data:{mac:String}},callback: any)=> {
 
-        const changeStream = deviceModel.watch([], { fullDocument: 'updateLookup' });
-      
-changeStream.on('change', obj => {
-  console.log(obj);
-});
-
-
-        // deviceModel.watch([{ $match: { } }]).on('change', data => {
-        //     console.log('Insert action triggered');
-        //     console.log(new Date(), data);
-        //     deviceModel.find({}, (err, data) => {
-        //         if (err) throw err;
-        //         if (data) {
-        //             // RESEND ALL USERS
-        //             console.log(data);
-
-        //             // this.socket.emit("Get_device", data);
-        //         }
-        //     });
-
-        // });
-
-
+        this.socket.join(String(data.data.mac));
+        callback({code:"200","message":"onchange registered listen at socket.on('onchange',()=>{.....})"})
     }
+
     private disconnect = (reason: string) => {
         console.info(`Socket disconnected: ${this.socket.id}, reason: ` + reason);
     };

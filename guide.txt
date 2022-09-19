@@ -1,0 +1,4 @@
+this is for continues running the server
+npm i -g pm2
+pm2 start npm --name "API" -- start --log-date-format "YYYY-D-MM HH:mm:ss.SSS" && pm2 save && pm2 logs
+pm2 logs "App name"
